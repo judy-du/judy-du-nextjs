@@ -1,0 +1,24 @@
+# Ignore everything
+
+
+# But not these directories, so we can recurse into them
+!/_images/
+!/_volumes/
+!/migrated-composer/
+
+
+# Ignore all files in these directories
+/_images/*
+/_volumes/*
+/_volumes_backup/*
+/migrated-composer/*
+images.txt
+volumes.txt
+docker-compose.yaml
+
+
+# Except .gitignore and .gitkeep
+!/.gitignore
+!/.gitkeep
+# !/images/.gitignore
+# !/volumes/.gitignore
