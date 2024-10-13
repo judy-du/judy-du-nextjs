@@ -20,6 +20,7 @@ export default function Header() {
 
         {/* Navigation Links */}
         <div className="flex space-x-4">
+          {/* Since these are links to PDF files, use <a> tags */}
           <a
             href="/judydu-portfolio.pdf"
             className="hover:bg-gray-300 px-2 py-1 rounded"

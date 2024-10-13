@@ -10,7 +10,6 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           className="text-blue-700 hover:text-blue-900"
-          aria-label="LinkedIn"
         >
           <FaLinkedin size={24} />
         </a>
@@ -19,7 +18,6 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           className="text-pink-500 hover:text-pink-700"
-          aria-label="Instagram"
         >
           <FaInstagram size={24} />
         </a>
@@ -28,7 +26,6 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           className="text-gray-800 hover:text-gray-900"
-          aria-label="GitHub"
         >
           <FaGithub size={24} />
         </a>

@@ -1,3 +1,4 @@
+// pages/index.js
 import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -5,7 +6,7 @@ import VideoSegment from '../components/VideoSegment';
 
 export default function Home() {
   return (
-    <div className="relative flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-screen overflow-hidden">
       <Head>
         <title>Judy Du</title>
         <meta name="description" content="Welcome to Judy's World" />
@@ -14,7 +15,7 @@ export default function Home() {
 
       <Header />
 
-      <main className="relative flex-grow flex items-center justify-center bg-[#212846]">
+      <main className="relative flex-grow flex items-center justify-center overflow-hidden bg-[#212846]">
         {/* Video Background */}
         <div className="absolute inset-0 z-0 video-container">
           <VideoSegment src="/video/startpage.mp4" id="video1" />

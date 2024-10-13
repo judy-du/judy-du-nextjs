@@ -1,3 +1,5 @@
+/* globals.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -38,7 +40,7 @@ html, body, #__next {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;  /* Prevent horizontal overflow */
+  overflow: hidden;
 }
 
 body {
@@ -50,11 +52,8 @@ body {
 /* Main content */
 main {
   flex-grow: 1;
-  background-color: #212846;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  max-height: calc(100vh - 50px - 50px);
+  overflow: hidden;
 }
 
 /* Background video positioning */
@@ -108,22 +107,15 @@ main {
 
 /* Main text container */
 .text-container {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
   text-align: center;
   width: 80%;
   font-family: 'Arial', sans-serif;
   color: white;
-  z-index: 4;
-  padding: 5vh 0;  /* Adds padding to allow better visibility on smaller screens */
-}
-
-/* Footer */
-footer {
-  background-color: #f8f9fa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
 }
 
 /* Responsive Design for smaller screens */
