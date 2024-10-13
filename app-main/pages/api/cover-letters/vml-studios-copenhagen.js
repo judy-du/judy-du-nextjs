@@ -23,11 +23,11 @@ export default function handler(req, res) {
       return res.status(500).json({ message: 'Internal Server Error' });
     }
 
-    // Set the response headers
+    // Set the response headers for inline PDF viewing
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=Personal Letter-Judy.pdf');
+    res.setHeader('Content-Disposition', 'inline; filename=Personal Letter-Judy.pdf');
 
-    // Send the file
+    // Send the file data
     res.send(data);
   });
 }
