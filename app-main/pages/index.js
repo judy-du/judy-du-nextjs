@@ -15,14 +15,16 @@ export default function Home() {
 
       <Header />
 
-      <main className="relative flex-grow flex items-center justify-center overflow-hidden">
+      <main className="relative flex-grow flex items-center justify-center overflow-hidden bg-[#212846]">
         {/* Video Background */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 video-container">
           <VideoSegment src="/video/startpage.mp4" id="video1" />
+          <VideoSegment src="/video/startpage.mp4" id="video2" />
+          <VideoSegment src="/video/startpage.mp4" id="video3" />
         </div>
 
         {/* Main Content */}
-        <div className="relative z-10 text-center text-white">
+        <div className="relative z-10 text-center text-white text-container">
           <h1 className="text-3xl md:text-5xl font-bold animate-slide-in-right delay-1">
             WELCOME TO
           </h1>

@@ -5,9 +5,9 @@ export default function VideoSegment({ src, id }) {
       muted
       autoPlay
       loop
-      playsInline
-      className="absolute inset-0 w-full h-full object-cover"
+      className="video-segment"
       id={id}
+      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
     >
       <source src={src} type="video/mp4" />
       Your browser does not support the video tag.
