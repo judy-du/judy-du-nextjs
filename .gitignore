@@ -11,3 +11,5 @@
 .gnupg/
 .bash_history
 .dotnet/
+*node_modules/
+*.next/
