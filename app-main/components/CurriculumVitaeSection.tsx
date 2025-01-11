@@ -17,16 +17,16 @@ const CurriculumVitaeSection: React.FC = () => {
     >
       <h1 className="text-3xl font-bold mb-4">Video CV</h1>
 
-      <div className="mb-6 w-full max-w-2xl px-4">
-        {/* ReactPlayer automatically creates a “cool” video player with controls, etc. */}
+      {/* Container for the player, centered with typical 16:9 YouTube dimensions */}
+      <div className="mb-6">
         <ReactPlayer
-          url="/video/curriculum-vitae.mp4" // or an external link
+          url="https://www.youtube.com/watch?v=4pliVlTGqUo"
           controls
-          width="100%"
-          height="100%"
-          // Optional: extra props
-          light={false} // If you want a thumbnail preview
-          playing={false} // Auto-play?
+          // Typical YouTube embed size
+          width="560px"
+          height="315px"
+          light={false}
+          playing={false}
           playbackRate={1.0}
         />
       </div>
