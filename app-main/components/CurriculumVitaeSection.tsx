@@ -1,9 +1,9 @@
 // components/CurriculumVitaeSection.tsx
 import React from 'react';
+import ReactPlayer from 'react-player';
 
 const CurriculumVitaeSection: React.FC = () => {
   return (
-    // We rely on parent <section> for h-screen, so here = h-full
     <div
       className="
         w-full
@@ -17,11 +17,18 @@ const CurriculumVitaeSection: React.FC = () => {
     >
       <h1 className="text-3xl font-bold mb-4">Video CV</h1>
 
-      <div className="mb-6">
-        <video controls className="max-w-full md:max-w-2xl shadow-lg">
-          <source src="/video/curriculum-vitae.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      <div className="mb-6 w-full max-w-2xl px-4">
+        {/* ReactPlayer automatically creates a “cool” video player with controls, etc. */}
+        <ReactPlayer
+          url="/video/curriculum-vitae.mp4" // or an external link
+          controls
+          width="100%"
+          height="100%"
+          // Optional: extra props
+          light={false} // If you want a thumbnail preview
+          playing={false} // Auto-play?
+          playbackRate={1.0}
+        />
       </div>
 
       <div>

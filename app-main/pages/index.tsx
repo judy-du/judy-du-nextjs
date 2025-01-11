@@ -11,7 +11,7 @@ export default function Home() {
   const mainRef = useRef<HTMLDivElement | null>(null);
 
   //
-  // (1) IntersectionObserver to update the URL hash (#cv, #contact, etc.)
+  // (1) IntersectionObserver (optional)
   //
   useEffect(() => {
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
@@ -37,7 +37,7 @@ export default function Home() {
   }, []);
 
   //
-  // (2) Hide/Show nav after scrolling > 80px inside <main>
+  // (2) Hide/show nav after scrolling >80px
   //
   useEffect(() => {
     const mainEl = mainRef.current;
@@ -60,7 +60,7 @@ export default function Home() {
   }, []);
 
   //
-  // (3) Keep track of section refs (for IntersectionObserver)
+  // (3) Track refs for IntersectionObserver
   //
   const setSectionRef = (el: HTMLElement | null) => {
     if (el && !sectionsRef.current.includes(el)) {
@@ -73,69 +73,82 @@ export default function Home() {
   //
   return (
     <div className="relative w-full h-full overflow-hidden scroll-smooth">
-      <div className="relative z-10 flex w-full h-full">
-        {/* Show Nav after scroll > 80px */}
-        {showNav && (
-          <aside className="w-1/4 flex-shrink-0">
-            <Navigation />
-          </aside>
-        )}
+      {/* 
+        Absolutely‐positioned nav at left. If showNav=true, we display it.
+        You can do "hidden" vs "block" or "transform" if you want an animation. 
+      */}
+      {showNav && (
+        <aside className="
+          absolute
+          top-0
+          left-0
+          w-1/4
+          h-full
+          z-50
+          bg-transparent
+        ">
+          <Navigation />
+        </aside>
+      )}
 
-        {/* Main scroll container: each section = 1 screen (h-screen) */}
-        <main
-          ref={mainRef}
+      {/* 
+        MAIN: Takes the entire screen, ignoring nav's space.
+        The nav is layered on top if shown. 
+      */}
+      <main
+        ref={mainRef}
+        className="
+          w-full
+          h-full
+          text-white
+          overflow-auto
+          snap-y
+          snap-mandatory
+          relative
+        "
+      >
+        <section
+          id="hero"
+          ref={setSectionRef}
           className="
-            flex-1
-            h-full
-            text-white
-            overflow-auto
-            snap-y
-            snap-mandatory
+            h-screen
+            snap-start
+            flex
+            items-center
+            justify-center    /* ensures center horizontally & vertically */
           "
         >
-          <section
-            id="hero"
-            ref={setSectionRef}
-            className="
-              h-screen
-              snap-start
-              flex
-              items-center
-              justify-center
-            "
-          >
-            <HeroSection />
-          </section>
+          <HeroSection />
+        </section>
 
-          <section
-            id="cv"
-            ref={setSectionRef}
-            className="
-              h-screen
-              snap-start
-              flex
-              items-center
-              justify-center
-            "
-          >
-            <CurriculumVitaeSection />
-          </section>
+        <section
+          id="cv"
+          ref={setSectionRef}
+          className="
+            h-screen
+            snap-start
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <CurriculumVitaeSection />
+        </section>
 
-          <section
-            id="contact"
-            ref={setSectionRef}
-            className="
-              h-screen
-              snap-start
-              flex
-              items-center
-              justify-center
-            "
-          >
-            <ContactSection />
-          </section>
-        </main>
-      </div>
+        <section
+          id="contact"
+          ref={setSectionRef}
+          className="
+            h-screen
+            snap-start
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <ContactSection />
+        </section>
+      </main>
     </div>
   );
 }
