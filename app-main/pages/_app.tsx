@@ -6,11 +6,11 @@ import VideoBackground from '../components/VideoBackground';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="relative min-h-screen w-full">
+    <div className="relative w-screen h-screen overflow-hidden">
       {/* Pink-ish background video behind everything */}
       <VideoBackground />
 
-      <div className="relative z-10 w-full min-h-screen">
+      <div className="relative z-10 w-full h-full">
         {/* Render whichever page (or route) is active */}
         <Component {...pageProps} />
       </div>

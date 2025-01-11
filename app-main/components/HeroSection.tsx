@@ -2,28 +2,35 @@
 import React from 'react';
 
 const HeroSection: React.FC = () => {
-  // Smoothly scroll to #cv when "Explore" is clicked
   const handleExploreClick = () => {
     const cvSection = document.getElementById('cv');
     cvSection?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section className="h-screen flex flex-col items-center justify-center text-center">
-      {/* Logo */}
+    <section
+      // "h-screen" => exactly 100vh, no more
+      className="
+        w-full
+        h-screen
+        flex
+        flex-col
+        items-center
+        justify-center
+        text-center
+      "
+    >
       <img
         src="/img/judy-du-navigation-logo.png"
         alt="Judy Du"
         className="h-16 w-auto mb-6"
       />
 
-      {/* Tagline */}
       <p className="text-2xl md:text-3xl font-semibold mb-8 leading-relaxed">
         VISUALS THAT CAPTIVATE <br />
         STRATEGIES THAT RESONATE
       </p>
 
-      {/* Custom Explore Button with red highlight */}
       <button
         onClick={handleExploreClick}
         className="

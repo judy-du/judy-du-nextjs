@@ -9,8 +9,11 @@ export default function Home() {
   const sectionsRef = useRef<HTMLElement[]>([]);
   const [showNav, setShowNav] = useState(false);
 
+  // We'll hold a ref to the <main> element where scrolling happens
+  const mainRef = useRef<HTMLDivElement | null>(null);
+
   //
-  // (1) IntersectionObserver to update URL hash (optional)
+  // (1) OPTIONAL: IntersectionObserver to update the URL hash
   //
   useEffect(() => {
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
@@ -36,33 +39,34 @@ export default function Home() {
   }, []);
 
   //
-  // (2) Hide/Show nav based on Hero bounding rect
+  // (2) Hide/Show nav based on scrolling inside mainRef
   //
   useEffect(() => {
-    const heroElement = document.getElementById('hero');
-    if (!heroElement) return;
-
+    const mainEl = mainRef.current;
+    if (!mainEl) return;
+  
     function handleScroll() {
-      const rect = heroElement.getBoundingClientRect();
-      // If the bottom of hero is above or at the top of the viewport => hero is off-screen
-      if (rect.bottom <= 0) {
+      // Make sure mainEl is still valid
+      if (!mainRef.current) return;
+  
+      // If we still have a container, read its scrollTop
+      if (mainRef.current.scrollTop > 80) {
         setShowNav(true);
       } else {
         setShowNav(false);
       }
     }
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    // Check initial position (in case user is already scrolled)
+  
+    mainEl.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-
+  
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      mainEl.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   //
-  // (3) Store references for IntersectionObserver (if needed)
+  // (3) IntersectionObserver references
   //
   const setSectionRef = (el: HTMLElement | null) => {
     if (el && !sectionsRef.current.includes(el)) {
@@ -78,16 +82,18 @@ export default function Home() {
       {/* Full-page background video behind nav & content */}
       <VideoBackground />
 
+      {/* Foreground flex: nav (conditionally) + main content */}
       <div className="relative z-10 flex min-h-screen w-full">
-        {/* Conditionally render the Nav if showNav is true */}
+        {/* Show Nav if we've scrolled > 80px */}
         {showNav && (
           <aside className="w-1/4 flex-shrink-0 bg-gray-900">
             <Navigation />
           </aside>
         )}
 
-        {/* Main scroll container with scroll snapping (optional) */}
+        {/* Main scroll container - attach ref & enable scroll snapping */}
         <main
+          ref={mainRef}
           className="
             flex-1
             text-white
