@@ -1,0 +1,17 @@
+/* components/Navigation.module.css */
+
+.navLink {
+    /* Base link style */
+    position: relative;
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* The highlighted "active" link: semi-transparent white background */
+  .navLinkActive {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff; /* or #111, whatever contrast you prefer */
+  }
+  

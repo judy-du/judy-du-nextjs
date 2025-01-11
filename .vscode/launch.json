@@ -47,5 +47,14 @@
         "webRoot": "${workspaceFolder}/app-main",
         "disableNetworkCache": true,
     }
-    ]
+    ],
+    "compounds": [
+    {
+      "name": "Start All",
+      "configurations": [
+        "Next.js: Full Stack",
+        "Attach to Node.js",
+        "Browser: chromium"
+      ]
+    }  ],
   }

@@ -1,0 +1,56 @@
+.container {
+    position: fixed;  /* stays in place */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* hide overflow so blobs don't show outside the screen */
+    z-index: -1;      /* sit behind main content, or use an appropriate layer */
+    background: #0000; /* can be transparent or a subtle color */
+  }
+  
+  /* Each blob is absolutely positioned and has a radial gradient or solid color */
+  .blob {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle at 30% 30%, #ff6b6b, #ff2375 60%);
+    border-radius: 40% 60% 70% 30% / 30% 70% 30% 70%;
+    animation: morph 12s ease-in-out infinite alternate;
+    opacity: 0.65;
+  }
+  
+  /* Optionally offset each blob differently so they don't all overlap */
+  .blob:nth-child(1) {
+    top: -10%;
+    left: -10%;
+  }
+  
+  .blob:nth-child(2) {
+    top: 20%;
+    right: -15%;
+    background: radial-gradient(circle at 20% 20%, #ffaf40, #ff793f 60%);
+  }
+  
+  .blob:nth-child(3) {
+    bottom: -10%;
+    left: 40%;
+    background: radial-gradient(circle at 10% 10%, #32ff7e, #05c46b 60%);
+  }
+  
+  /* This keyframe gradually morphs the shape over time */
+  @keyframes morph {
+    0% {
+      border-radius: 40% 60% 70% 30% / 30% 70% 30% 70%;
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      border-radius: 70% 30% 40% 60% / 60% 40% 70% 30%;
+      transform: translate(20px, -30px) scale(1.2);
+    }
+    100% {
+      border-radius: 60% 40% 30% 70% / 50% 50% 40% 60%;
+      transform: translate(-20px, 40px) scale(0.9);
+    }
+  }
+  

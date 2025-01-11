@@ -16,6 +16,20 @@
   }
 }
 
+/* Example for Bold, Regular, etc. Add as many as you need */
+@font-face {
+  font-family: "Now";
+  src: url("/fonts/alter/alta-regular_freefontdownload_org/alta-regular.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+
 /* Initial state for the elements */
 .animate-slide-in-right {
   opacity: 0;  /* Initially hide the text */

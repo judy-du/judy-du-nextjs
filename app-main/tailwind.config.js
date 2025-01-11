@@ -5,7 +5,12 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        // "now" can be any name you like
+        now: ['Now', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
