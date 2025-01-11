@@ -1,5 +1,6 @@
 /* globals.css */
 
+/* Tailwind base, components, utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,61 +17,59 @@
   }
 }
 
-/* Example for Bold, Regular, etc. Add as many as you need */
+/* Example font-face. Adjust as needed. */
 @font-face {
   font-family: "Now";
-  src: url("/fonts/alter/alta-regular_freefontdownload_org/alta-regular.otf") format("opentype");
+  src: url("/fonts/alter/alta-regular_freefontdownload_org/alta-regular.otf")
+    format("opentype");
   font-weight: 700;
   font-style: normal;
 }
 
+/* Global smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-
-
-/* Initial state for the elements */
+/* Slide-in animation utility */
 .animate-slide-in-right {
-  opacity: 0;  /* Initially hide the text */
+  opacity: 0;
   animation: slideInRight 1.5s ease-out forwards;
 }
-
-/* Animation delay for each element */
 .delay-1 {
   animation-delay: 0.5s;
 }
-
 .delay-2 {
   animation-delay: 1s;
 }
-
 .delay-3 {
   animation-delay: 1.5s;
 }
 
-/* Ensure the body and main container take up full height */
-html, body, #__next {
+/* Ensure no default margin/padding so 100vh containers work */
+html,
+body,
+#__next {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
 }
 
+/* Let the child container handle scrolling rather than the body */
 body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
 
-/* Main content */
+/* Remove fixed max-height & hidden overflow so <main> can scroll properly */
 main {
   flex-grow: 1;
-  max-height: calc(100vh - 50px - 50px);
-  overflow: hidden;
+  /* Previously: max-height: calc(100vh - 50px - 50px); overflow: hidden; */
+  /* Now these are removed or commented out. The Tailwind classes in your .tsx files handle the scrolling. */
 }
 
-/* Background video positioning */
+/* Background video positioning (if you're still using them) */
 .video-container {
   display: flex;
   justify-content: space-between;
@@ -82,7 +81,7 @@ main {
   z-index: 1;
 }
 
-/* Video segments */
+/* Example video segments (custom to your design) */
 #video1 {
   position: absolute;
   top: 0;
@@ -119,7 +118,7 @@ main {
   z-index: 1;
 }
 
-/* Main text container */
+/* Centered text overlay, if you're using it */
 .text-container {
   position: absolute;
   top: 50%;
@@ -132,15 +131,18 @@ main {
   color: white;
 }
 
-/* Responsive Design for smaller screens */
+/* Responsive design for smaller screens */
 @media (max-width: 1010px) {
-  #video1, #video2, #video3 {
+  #video1,
+  #video2,
+  #video3 {
     width: 100vw;
     height: auto;
     opacity: 0.4;
   }
 
-  #video2, #video3 {
+  #video2,
+  #video3 {
     display: none; /* Hide extra videos on smaller screens */
   }
 }

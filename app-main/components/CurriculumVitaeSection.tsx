@@ -3,17 +3,16 @@ import React from 'react';
 
 const CurriculumVitaeSection: React.FC = () => {
   return (
-    <section
-      id="cv"
+    // We rely on parent <section> for h-screen, so here = h-full
+    <div
       className="
+        w-full
+        h-full
         flex
         flex-col
         items-center
         justify-center
         text-center
-        w-full        /* fill the available width */
-        h-full        /* fill the parent's height if needed */
-        overflow-auto /* if you want scrolling in this section alone */
       "
     >
       <h1 className="text-3xl font-bold mb-4">Video CV</h1>
@@ -41,7 +40,7 @@ const CurriculumVitaeSection: React.FC = () => {
           Download PDF
         </a>
       </div>
-    </section>
+    </div>
   );
 };
 

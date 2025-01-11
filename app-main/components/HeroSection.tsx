@@ -8,18 +8,8 @@ const HeroSection: React.FC = () => {
   };
 
   return (
-    <section
-      // "h-screen" => exactly 100vh, no more
-      className="
-        w-full
-        h-screen
-        flex
-        flex-col
-        items-center
-        justify-center
-        text-center
-      "
-    >
+    // We rely on the parent <section> to be h-screen, so here we do h-full
+    <div className="w-full h-full flex flex-col items-center justify-center text-center">
       <img
         src="/img/judy-du-navigation-logo.png"
         alt="Judy Du"
@@ -45,18 +35,10 @@ const HeroSection: React.FC = () => {
       >
         <span className="relative z-10">Explore</span>
         <span className="absolute inset-0 flex items-center justify-center -z-0">
-          <span
-            className="
-              block
-              w-12 h-3
-              bg-red-500
-              blur-md
-              rounded-full
-            "
-          />
+          <span className="block w-12 h-3 bg-red-500 blur-md rounded-full" />
         </span>
       </button>
-    </section>
+    </div>
   );
 };
 

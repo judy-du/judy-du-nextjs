@@ -6,7 +6,7 @@ const VideoBackground: React.FC = () => {
 
   useEffect(() => {
     if (videoRef.current) {
-      // Slow down the video playback
+      // Slow down the video playback if desired
       videoRef.current.playbackRate = 0.1;
     }
   }, []);
@@ -18,10 +18,10 @@ const VideoBackground: React.FC = () => {
       loop
       muted
       playsInline
-      className="absolute top-0 left-0 w-full h-full object-cover z-0"
+      // Force 100vw x 100vh (object-cover keeps the aspect ratio)
+      className="absolute top-0 left-0 w-screen h-screen object-cover z-0"
     >
       <source src="/video/freecompress-pink-background.mp4" type="video/mp4" />
-      {/* If someone’s browser doesn't support <video> */}
       Your browser does not support the video tag.
     </video>
   );
