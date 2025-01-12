@@ -4,25 +4,13 @@ import ReactPlayer from 'react-player';
 
 const CurriculumVitaeSection: React.FC = () => {
   return (
-    <div
-      className="
-        w-full
-        h-full
-        flex
-        flex-col
-        items-center
-        justify-center
-        text-center
-      "
-    >
+    <div className="w-full h-full flex flex-col items-center justify-center text-center">
       <h1 className="text-3xl font-bold mb-4">Video CV</h1>
 
-      {/* Container for the player, centered with typical 16:9 YouTube dimensions */}
       <div className="mb-6">
         <ReactPlayer
           url="https://www.youtube.com/watch?v=4pliVlTGqUo"
           controls
-          // Typical YouTube embed size
           width="560px"
           height="315px"
           light={false}

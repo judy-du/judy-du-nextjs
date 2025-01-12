@@ -7,8 +7,12 @@ import Navigation from '../components/Navigation';
 
 export default function Home() {
   const sectionsRef = useRef<HTMLElement[]>([]);
-  const [showNav, setShowNav] = useState(false);
   const mainRef = useRef<HTMLDivElement | null>(null);
+
+  // (A) Track hydration (avoid SSR mismatch)
+  const [hydrated, setHydrated] = useState(false);
+  // (B) Scroll-based state for nav
+  const [showNav, setShowNav] = useState(false);
 
   //
   // (1) IntersectionObserver (optional)
@@ -37,15 +41,24 @@ export default function Home() {
   }, []);
 
   //
-  // (2) Hide/show nav after scrolling >80px
+  // (A) Mark that we've reached the client (hydration)
   //
   useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  //
+  // (2) Hide/show nav after scrolling >80px (only if hydrated)
+  //
+  useEffect(() => {
+    if (!hydrated) return; // Skip on server
+
     const mainEl = mainRef.current;
     if (!mainEl) return;
 
     function handleScroll() {
-      if (!mainRef.current) return;
-      if (mainRef.current.scrollTop > 80) {
+      if (!mainEl) return;
+      if (mainEl.scrollTop > 80) {
         setShowNav(true);
       } else {
         setShowNav(false);
@@ -53,14 +66,14 @@ export default function Home() {
     }
 
     mainEl.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    handleScroll(); // Check initial scroll
     return () => {
       mainEl.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [hydrated]);
 
   //
-  // (3) Track refs for IntersectionObserver
+  // (3) Store references for IntersectionObserver
   //
   const setSectionRef = (el: HTMLElement | null) => {
     if (el && !sectionsRef.current.includes(el)) {
@@ -73,28 +86,13 @@ export default function Home() {
   //
   return (
     <div className="relative w-full h-full overflow-hidden scroll-smooth">
-      {/* 
-        Absolutely‐positioned nav at left. If showNav=true, we display it.
-        You can do "hidden" vs "block" or "transform" if you want an animation. 
-      */}
-      {showNav && (
-        <aside className="
-          absolute
-          top-0
-          left-0
-          w-1/4
-          h-full
-          z-50
-          bg-transparent
-        ">
+      {/* Render nav ONLY if hydrated + scrolled >80px */}
+      {hydrated && showNav && (
+        <aside className="absolute top-0 left-0 w-1/4 h-full z-50 bg-transparent">
           <Navigation />
         </aside>
       )}
 
-      {/* 
-        MAIN: Takes the entire screen, ignoring nav's space.
-        The nav is layered on top if shown. 
-      */}
       <main
         ref={mainRef}
         className="
@@ -115,7 +113,7 @@ export default function Home() {
             snap-start
             flex
             items-center
-            justify-center    /* ensures center horizontally & vertically */
+            justify-center
           "
         >
           <HeroSection />

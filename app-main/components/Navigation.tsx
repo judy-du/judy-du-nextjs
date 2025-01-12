@@ -1,22 +1,31 @@
 // components/Navigation.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from './Navigation.module.css';
 
 const Navigation: React.FC = () => {
-  const router = useRouter();
-  const currentHash = router.asPath; 
-  // e.g. '/', '/#hero', '/#cv', '/#contact'
+  // We will hide the nav on server, then show on client once hydrated
+  const [hydrated, setHydrated] = useState(false);
 
-  // Helper to check if a link's href matches the current hash
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  const router = useRouter();
+  const currentHash = router.asPath; // e.g. "/#cv"
+
   const isActive = (hash: string) => currentHash === hash;
+
+  // If we're not hydrated yet, return null (no nav on server)
+  if (!hydrated) {
+    return null;
+  }
 
   return (
     <aside className="h-full flex flex-col text-white font-now">
-      {/* Top: Judy Du Logo -> links to #hero */}
       <div className="flex-shrink-0 pt-10 pl-10">
-        <Link href="#hero" scroll={false} className="cursor-pointer">
+        <Link href="/#hero" scroll={false} className="cursor-pointer">
           <img
             src="/img/judy-du-navigation-logo.png"
             alt="Judy Du"
@@ -25,11 +34,10 @@ const Navigation: React.FC = () => {
         </Link>
       </div>
 
-      {/* Middle: Nav links */}
       <div className="flex-grow flex items-center pl-10">
         <nav className="flex flex-col space-y-4 text-lg uppercase tracking-wide">
           <Link
-            href="#cv"
+            href="/#cv"
             scroll={false}
             className={`
               hover:opacity-80
@@ -49,7 +57,7 @@ const Navigation: React.FC = () => {
           </Link>
 
           <Link
-            href="#education"
+            href="/#education"
             scroll={false}
             className={`
               hover:opacity-80
@@ -61,7 +69,7 @@ const Navigation: React.FC = () => {
           </Link>
 
           <Link
-            href="#about"
+            href="/#about"
             scroll={false}
             className={`
               hover:opacity-80
@@ -73,7 +81,7 @@ const Navigation: React.FC = () => {
           </Link>
 
           <Link
-            href="#contact"
+            href="/#contact"
             scroll={false}
             className={`
               hover:opacity-80
