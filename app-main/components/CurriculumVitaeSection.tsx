@@ -19,7 +19,7 @@ const CurriculumVitaeSection: React.FC = () => {
         />
       </div>
 
-      <div>
+      <div className="flex flex-col items-center space-y-4">
         <a
           href="/judydu-cv.pdf"
           target="_blank"
@@ -32,7 +32,23 @@ const CurriculumVitaeSection: React.FC = () => {
             hover:opacity-80
           "
         >
-          Download PDF
+          Download CV (PDF)
+        </a>
+
+        {/* ADDED: Portfolio link here, replacing the old Navigation link */}
+        <a
+          href="/judydu-portfolio.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="
+            inline-block
+            px-6 py-2
+            bg-white text-pink-700 font-semibold
+            rounded shadow
+            hover:opacity-80
+          "
+        >
+          View Portfolio (PDF)
         </a>
       </div>
     </div>

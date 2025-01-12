@@ -4,8 +4,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from './Navigation.module.css';
 
-const Navigation: React.FC = () => {
-  // We will hide the nav on server, then show on client once hydrated
+interface NavigationProps {
+  onLinkClick?: () => void;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
+  // Hide on server; show after mount/hydration
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
@@ -17,15 +21,28 @@ const Navigation: React.FC = () => {
 
   const isActive = (hash: string) => currentHash === hash;
 
-  // If we're not hydrated yet, return null (no nav on server)
+  // If not hydrated, return nothing
   if (!hydrated) {
     return null;
   }
 
+  // We can pass an onClick to each link that closes the mobile menu
+  const handleLinkClick = () => {
+    if (onLinkClick) {
+      onLinkClick();
+    }
+  };
+
   return (
     <aside className="h-full flex flex-col text-white font-now">
+      {/* Logo linking to #hero */}
       <div className="flex-shrink-0 pt-10 pl-10">
-        <Link href="/#hero" scroll={false} className="cursor-pointer">
+        <Link
+          href="/#hero"
+          scroll={false}
+          className="cursor-pointer"
+          onClick={handleLinkClick}
+        >
           <img
             src="/img/judy-du-navigation-logo.png"
             alt="Judy Du"
@@ -39,50 +56,20 @@ const Navigation: React.FC = () => {
           <Link
             href="/#cv"
             scroll={false}
+            onClick={handleLinkClick}
             className={`
               hover:opacity-80
               ${styles.navLink}
               ${isActive('/#cv') ? styles.navLinkActive : ''}
             `}
           >
-            CV
-          </Link>
-
-          <Link
-            href="/judydu-portfolio.pdf"
-            target="_blank"
-            className={`${styles.navLink} hover:opacity-80`}
-          >
-            Portfolio
-          </Link>
-
-          <Link
-            href="/#education"
-            scroll={false}
-            className={`
-              hover:opacity-80
-              ${styles.navLink}
-              ${isActive('/#education') ? styles.navLinkActive : ''}
-            `}
-          >
-            Education
-          </Link>
-
-          <Link
-            href="/#about"
-            scroll={false}
-            className={`
-              hover:opacity-80
-              ${styles.navLink}
-              ${isActive('/#about') ? styles.navLinkActive : ''}
-            `}
-          >
-            More About Me
+            Curriculum Vitae
           </Link>
 
           <Link
             href="/#contact"
             scroll={false}
+            onClick={handleLinkClick}
             className={`
               hover:opacity-80
               ${styles.navLink}
