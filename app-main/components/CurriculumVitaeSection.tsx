@@ -11,8 +11,8 @@ const CurriculumVitaeSection: React.FC = () => {
         <ReactPlayer
           url="https://www.youtube.com/watch?v=4pliVlTGqUo"
           controls
-          width="560px"
-          height="315px"
+          width="40vw"
+          height="22.5vw"
           light={false}
           playing={false}
           playbackRate={1.0}
