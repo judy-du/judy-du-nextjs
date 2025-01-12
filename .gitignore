@@ -13,3 +13,4 @@
 .dotnet/
 *node_modules/
 *.next/
+app-main/public/video/curriculum-vitae.mp4
