@@ -13,37 +13,39 @@ const HomeClientOnly: React.FC = () => {
   const sectionsRef = useRef<HTMLElement[]>([]);
   const mainRef = useRef<HTMLDivElement | null>(null);
 
-  // If we haven't been here before, show the preloader.
+  // (1) Show preloader if user hasn't visited
   const [showPreloader, setShowPreloader] = useState(false);
 
   // Check cookie client-side (no SSR)
   useEffect(() => {
-    const hasBeenHereCookie = document.cookie
+    const hasCookie = document.cookie
       .split('; ')
       .find((cookie) => cookie.startsWith('beenHereBefore='));
-    if (!hasBeenHereCookie) {
+    if (!hasCookie) {
       setShowPreloader(true);
     }
   }, []);
 
-  // Once preloader finishes, set cookie & hide preloader
+  // Once preloader finishes => set cookie & hide it
   const handlePreloaderDone = () => {
     document.cookie = `beenHereBefore=true; max-age=${60 * 60 * 24 * 365}; path=/;`;
     setShowPreloader(false);
   };
 
-  // Normal page logic
+  // (2) Normal page logic
   const [hydrated, setHydrated] = useState(false);
   const [showNav, setShowNav] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Track which section is currently visible
   const [currentSection, setCurrentSection] = useState('hero');
 
-  // Mark hydration done (avoid SSR mismatch)
+  // Avoid SSR mismatch
   useEffect(() => {
     setHydrated(true);
   }, []);
 
-  // IntersectionObserver for highlighting sections
+  // (3) IntersectionObserver for highlighting sections
   useEffect(() => {
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
@@ -68,7 +70,7 @@ const HomeClientOnly: React.FC = () => {
     };
   }, []);
 
-  // Hide/show nav after scrolling >80px (desktop only)
+  // (4) Hide/show nav after scrolling >80px (desktop only)
   useEffect(() => {
     if (!hydrated) return;
     const mainEl = mainRef.current;
@@ -85,7 +87,7 @@ const HomeClientOnly: React.FC = () => {
     };
   }, [hydrated]);
 
-  // Helper to store section refs
+  // Helper for IntersectionObserver: store each section ref
   const setSectionRef = (el: HTMLElement | null) => {
     if (el && !sectionsRef.current.includes(el)) {
       sectionsRef.current.push(el);
@@ -94,16 +96,16 @@ const HomeClientOnly: React.FC = () => {
 
   return (
     <>
-      {/* Show preloader if needed */}
+      {/* (5) Show PRELOADER if needed */}
       {showPreloader && <Preloader onDone={handlePreloaderDone} />}
 
       <div className="relative w-full h-full overflow-hidden scroll-smooth">
-        {/* MOBILE HEADER (fixed top). Set height so content can start below it. */}
+        {/* (6) MOBILE HEADER */}
         <header
           className="
             md:hidden
             fixed top-0 left-0
-            w-full h-16  /* ensures a fixed 4rem height for the header */
+            w-full h-16
             z-50
             flex items-center justify-between
             px-4
@@ -130,7 +132,7 @@ const HomeClientOnly: React.FC = () => {
           </button>
         </header>
 
-        {/* MOBILE MENU */}
+        {/* (7) MOBILE MENU */}
         {isMobileMenuOpen && (
           <nav
             className="
@@ -162,12 +164,15 @@ const HomeClientOnly: React.FC = () => {
             </div>
 
             <div className="flex-grow flex items-center justify-center">
-              <Navigation onLinkClick={() => setIsMobileMenuOpen(false)} />
+              <Navigation
+                currentSection={currentSection}
+                onLinkClick={() => setIsMobileMenuOpen(false)}
+              />
             </div>
           </nav>
         )}
 
-        {/* DESKTOP NAV after scroll */}
+        {/* (8) DESKTOP NAV (appears after scroll) */}
         {hydrated && showNav && (
           <aside
             className="
@@ -179,10 +184,11 @@ const HomeClientOnly: React.FC = () => {
               bg-transparent
             "
           >
-            <Navigation />
+            <Navigation currentSection={currentSection} />
           </aside>
         )}
 
+        {/* (9) MAIN CONTENT */}
         <main
           ref={mainRef}
           className="
@@ -192,12 +198,8 @@ const HomeClientOnly: React.FC = () => {
             overflow-auto
             snap-y snap-mandatory
             relative
-
-            /* On mobile, add top padding = header height so content isn't hidden. */
-            pt-16
-
-            /* On md+ screens, no extra top padding because nav is on the left. */
-            md:pt-0
+            pt-16  /* space for mobile header */
+            md:pt-0 /* no top padding on desktop */
           "
         >
           <section

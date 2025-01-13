@@ -1,14 +1,15 @@
 // components/Navigation.tsx
+
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import styles from './Navigation.module.css';
 
 interface NavigationProps {
+  currentSection?: string; // <-- from HomeClientOnly
   onLinkClick?: () => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
+const Navigation: React.FC<NavigationProps> = ({ currentSection, onLinkClick }) => {
   // Hide on server; show after mount/hydration
   const [hydrated, setHydrated] = useState(false);
 
@@ -16,11 +17,10 @@ const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
     setHydrated(true);
   }, []);
 
-  const router = useRouter();
-
-  const isActive = (hash: string) => router.asPath === hash;
-
   if (!hydrated) return null;
+
+  // Determine if a nav link is active based on the currentSection
+  const isActive = (sectionId: string) => currentSection === sectionId;
 
   const handleLinkClick = () => {
     if (onLinkClick) {
@@ -46,8 +46,13 @@ const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
         </Link>
       </div>
 
+      {/* Main Nav Links */}
       <div className="flex-grow flex items-center pl-10">
         <nav className="flex flex-col space-y-4 text-lg uppercase tracking-wide">
+          {/* Match the same order in HomeClientOnly */}
+   
+
+          {/* 2. Curriculum Vitae */}
           <Link
             href="/#cv"
             scroll={false}
@@ -55,13 +60,13 @@ const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
             className={`
               hover:opacity-80
               ${styles.navLink}
-              ${isActive('/#cv') ? styles.navLinkActive : ''}
+              ${isActive('cv') ? styles.navLinkActive : ''}
             `}
           >
             Curriculum Vitae
           </Link>
 
-          {/* NEW Link #academic-projects */}
+          {/* 3. Academic Projects */}
           <Link
             href="/#academic-projects"
             scroll={false}
@@ -69,13 +74,13 @@ const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
             className={`
               hover:opacity-80
               ${styles.navLink}
-              ${isActive('/#academic-projects') ? styles.navLinkActive : ''}
+              ${isActive('academic-projects') ? styles.navLinkActive : ''}
             `}
           >
             Academic Projects
           </Link>
 
-          {/* NEW Link #portfolio */}
+          {/* 4. Portfolio */}
           <Link
             href="/#portfolio"
             scroll={false}
@@ -83,12 +88,13 @@ const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
             className={`
               hover:opacity-80
               ${styles.navLink}
-              ${isActive('/#portfolio') ? styles.navLinkActive : ''}
+              ${isActive('portfolio') ? styles.navLinkActive : ''}
             `}
           >
             Portfolio
           </Link>
 
+          {/* 5. Contact */}
           <Link
             href="/#contact"
             scroll={false}
@@ -96,7 +102,7 @@ const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
             className={`
               hover:opacity-80
               ${styles.navLink}
-              ${isActive('/#contact') ? styles.navLinkActive : ''}
+              ${isActive('contact') ? styles.navLinkActive : ''}
             `}
           >
             Contact Me

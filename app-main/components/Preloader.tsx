@@ -34,19 +34,22 @@ export default function Preloader({ onDone }: PreloaderProps) {
     setStep(2);
   };
 
-  // Click Explore => fade out => scroll to #cv => call onDone()
+  // Click Explore => fade out => scroll to #cv => then call onDone()
   const handleExploreClick = () => {
+    // Trigger fade-out
     setFadingOut(true);
+
+    // After fade-out, hide the preloader, then scroll to CV
     setTimeout(() => {
-      // Hide the preloader & set cookie
+      // 1) Notify parent to remove the preloader
       onDone();
 
-      // Now scroll to #cv
+      // 2) Scroll to #cv section
       const cvSection = document.getElementById('cv');
       if (cvSection) {
         cvSection.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 800); // match the fade duration
+    }, 800); // match the .transition-opacity duration
   };
 
   return (
@@ -90,7 +93,7 @@ export default function Preloader({ onDone }: PreloaderProps) {
         {/* STEP 2 => Type line 1, then line 2 */}
         {step === 2 && (
           <div className="flex flex-col items-center">
-            <div className="text-2xl md:text-3xl font-semibold leading-relaxed mb-4">
+            <div className="text-2xl md:text-3xl font-semibold leading-relaxed mb-4 font-now">
               <TypeWriterGroup
                 lines={[
                   'VISUALS THAT CAPTIVATE',
@@ -105,7 +108,7 @@ export default function Preloader({ onDone }: PreloaderProps) {
         {/* STEP 3 => Show final text & Explore button */}
         {step === 3 && (
           <div className="flex flex-col items-center">
-            <p className="text-2xl md:text-3xl font-semibold leading-relaxed mb-8">
+            <p className="text-2xl md:text-3xl font-semibold leading-relaxed mb-8 font-now">
               VISUALS THAT CAPTIVATE <br />
               STRATEGIES THAT RESONATE
             </p>
@@ -133,11 +136,11 @@ export default function Preloader({ onDone }: PreloaderProps) {
   );
 }
 
-/**
+/** 
  * TypeWriterGroup:
- *   - Takes an array of lines, e.g. ["VISUALS THAT CAPTIVATE", "STRATEGIES THAT RESONATE"]
- *   - Types line 1 fully, then line 2, etc.
- *   - Calls onComplete() after the last line is typed.
+ *  - Takes an array of lines, e.g. ["VISUALS...", "STRATEGIES..."]
+ *  - Types line 1, then line 2, ...
+ *  - Calls onComplete() after the last line is typed
  */
 type TypeWriterGroupProps = {
   lines: string[];
@@ -168,7 +171,6 @@ function TypeWriterGroup({ lines, onComplete }: TypeWriterGroupProps) {
               className="block"
             />
           ) : (
-            // If typed in the past, just show it statically
             idx < currentLine && <div>{line}</div>
           )}
         </div>
@@ -179,8 +181,8 @@ function TypeWriterGroup({ lines, onComplete }: TypeWriterGroupProps) {
 
 /**
  * TypeWriterText:
- *   - Types out the given text once.
- *   - Calls onComplete() when done.
+ *  - Types out the given text once.
+ *  - Calls onComplete() when done.
  */
 type TypeWriterTextProps = {
   text: string;

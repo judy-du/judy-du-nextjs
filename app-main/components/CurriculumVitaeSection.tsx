@@ -8,8 +8,21 @@ const CurriculumVitaeSection: React.FC = () => {
   const { width } = useWindowSize();
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center text-center">
-      <h1 className="text-3xl font-bold mb-4">Video CV</h1>
+    <div
+      className="
+        relative
+        w-full
+        h-full
+        overflow-x-hidden
+        px-6 py-6
+        text-center
+        flex flex-col items-center justify-center
+
+        /* On md+ screens, shift content right by 25% to avoid overlapping nav */
+        md:ml-[25%]
+      "
+    >
+      <h1 className="text-3xl md:text-4xl font-bold mb-4">Video CV</h1>
 
       <div className="mb-6">
         <ReactPlayer
@@ -31,14 +44,15 @@ const CurriculumVitaeSection: React.FC = () => {
           className="
             inline-block
             px-6 py-2
-            bg-white text-pink-700 font-semibold
+            bg-white
+            text-pink-700
+            font-semibold
             rounded shadow
             hover:opacity-80
           "
         >
           Download CV (PDF)
         </a>
-
       </div>
     </div>
   );

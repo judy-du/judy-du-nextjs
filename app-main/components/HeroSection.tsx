@@ -16,7 +16,7 @@ const HeroSection: React.FC = () => {
         className="h-16 w-auto mb-6"
       />
 
-      <p className="text-2xl md:text-3xl font-semibold mb-8 leading-relaxed">
+      <p className="text-2xl md:text-3xl font-semibold mb-8 leading-relaxed font-now">
         VISUALS THAT CAPTIVATE <br />
         STRATEGIES THAT RESONATE
       </p>
