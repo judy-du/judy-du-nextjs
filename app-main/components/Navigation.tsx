@@ -17,16 +17,11 @@ const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
   }, []);
 
   const router = useRouter();
-  const currentHash = router.asPath; // e.g. "/#cv"
 
-  const isActive = (hash: string) => currentHash === hash;
+  const isActive = (hash: string) => router.asPath === hash;
 
-  // If not hydrated, return nothing
-  if (!hydrated) {
-    return null;
-  }
+  if (!hydrated) return null;
 
-  // We can pass an onClick to each link that closes the mobile menu
   const handleLinkClick = () => {
     if (onLinkClick) {
       onLinkClick();
@@ -64,6 +59,34 @@ const Navigation: React.FC<NavigationProps> = ({ onLinkClick }) => {
             `}
           >
             Curriculum Vitae
+          </Link>
+
+          {/* NEW Link #academic-projects */}
+          <Link
+            href="/#academic-projects"
+            scroll={false}
+            onClick={handleLinkClick}
+            className={`
+              hover:opacity-80
+              ${styles.navLink}
+              ${isActive('/#academic-projects') ? styles.navLinkActive : ''}
+            `}
+          >
+            Academic Projects
+          </Link>
+
+          {/* NEW Link #portfolio */}
+          <Link
+            href="/#portfolio"
+            scroll={false}
+            onClick={handleLinkClick}
+            className={`
+              hover:opacity-80
+              ${styles.navLink}
+              ${isActive('/#portfolio') ? styles.navLinkActive : ''}
+            `}
+          >
+            Portfolio
           </Link>
 
           <Link

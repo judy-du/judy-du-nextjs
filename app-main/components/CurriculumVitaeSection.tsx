@@ -39,21 +39,6 @@ const CurriculumVitaeSection: React.FC = () => {
           Download CV (PDF)
         </a>
 
-        {/* ADDED: Portfolio link here */}
-        <a
-          href="/judydu-portfolio.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="
-            inline-block
-            px-6 py-2
-            bg-white text-pink-700 font-semibold
-            rounded shadow
-            hover:opacity-80
-          "
-        >
-          View Portfolio (PDF)
-        </a>
       </div>
     </div>
   );
