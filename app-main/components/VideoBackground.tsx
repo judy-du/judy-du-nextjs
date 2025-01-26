@@ -1,4 +1,5 @@
 // components/VideoBackground.tsx
+
 import React, { useRef, useEffect, useState } from 'react';
 
 interface VideoBackgroundProps {
@@ -6,15 +7,19 @@ interface VideoBackgroundProps {
   // e.g. 'hero', 'academic-projects', 'portfolio', etc.
 }
 
+// Simple map: section -> image URL (no cropping)
 const imageMap: Record<string, string> = {
-  'hero': '/img/judy-du-snow.jpg',
+  hero: '/img/judy-du-snow.jpg',
   'academic-projects': '/img/judy-du-education.jpg',
-  // Add more mappings for other sections if needed
+  // Add more sections if you have them:
+  // portfolio: '/img/judy-du-portfolio-cropped.jpg',
+  // contact: '/img/judy-du-contact-cropped.jpg',
 };
 
-const fallbackImage = '/img/judy-du-snow.jpg'; // default
+// Default/fallback if section isn’t recognized
+const fallbackUrl = '/img/judy-du-snow.jpg';
 
-// Preload your images so there's no flicker
+// Preload images to avoid flicker
 function preloadImages(urls: string[]) {
   for (const url of urls) {
     const img = new Image();
@@ -22,79 +27,86 @@ function preloadImages(urls: string[]) {
   }
 }
 
+function getImage(section: string | undefined) {
+  if (!section) return fallbackUrl;
+  return imageMap[section] ?? fallbackUrl;
+}
+
 const VideoBackground: React.FC<VideoBackgroundProps> = ({ section }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // On mount, preload all images
+  // Preload images when component mounts
   useEffect(() => {
-    const allImages = Object.values(imageMap);
-    preloadImages(allImages);
+    const allUrls = Object.values(imageMap);
+    preloadImages([...allUrls, fallbackUrl]);
   }, []);
 
-  // The background currently being displayed
-  const [currentBg, setCurrentBg] = useState(fallbackImage);
+  // Current background URL
+  const [currentBg, setCurrentBg] = useState(() => getImage('hero'));
 
-  // The background we will fade in
+  // Next background we crossfade into
   const [nextBg, setNextBg] = useState<string | null>(null);
-
-  // State to control if we're in the middle of a fade
   const [isFading, setIsFading] = useState(false);
 
+  // Keep video playback rate normal
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.playbackRate = 1;
     }
   }, []);
 
-  // Whenever the `section` changes, pick the new image and start crossfade
+  // Whenever section changes => crossfade
   useEffect(() => {
-    // Figure out which image to use for this section
-    const newImage = imageMap[section || 'hero'] || fallbackImage;
+    const newUrl = getImage(section);
 
-    // If it's the same as current, do nothing
-    if (newImage === currentBg) return;
+    // If same URL, do nothing
+    if (newUrl === currentBg) return;
 
-    // Set it as nextBg so the top layer uses the new image
-    setNextBg(newImage);
-    // Trigger fade
+    // Start fade
+    setNextBg(newUrl);
     setIsFading(true);
 
-    // After .5s fade, we finalize the new image as "current"
+    // After 0.5s, finalize
     const timer = setTimeout(() => {
-      setCurrentBg(newImage);
-      setNextBg(null); // hide top layer
+      setCurrentBg(newUrl);
+      setNextBg(null);
       setIsFading(false);
-    }, 500); // match the CSS duration
+    }, 500);
 
     return () => clearTimeout(timer);
   }, [section, currentBg]);
 
   return (
     <div className="absolute inset-0 overflow-hidden">
-      {/* Layer 1: The "current" background */}
+      {/* LAYER 1: current background */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
+        className="
+          absolute inset-0
+          bg-cover bg-center bg-no-repeat
+          transition-opacity duration-500
+        "
         style={{
           backgroundImage: `url('${currentBg}')`,
-          // If we're fading, the currentBg is behind the top layer
-          // no opacity change needed for the bottom layer
-          opacity: 1,
+          opacity: 1, // always visible for the "bottom" layer
         }}
       />
 
-      {/* Layer 2: The "next" background (fades in on top) */}
+      {/* LAYER 2: next background (crossfade on top) */}
       {nextBg && (
         <div
-          className="absolute inset-0 bg-cover bg-center transition-opacity duration-500"
+          className="
+            absolute inset-0
+            bg-cover bg-center bg-no-repeat
+            transition-opacity duration-500
+          "
           style={{
             backgroundImage: `url('${nextBg}')`,
-            // If isFading is true => we fade from 0 -> 1
             opacity: isFading ? 1 : 0,
           }}
         />
       )}
 
-      {/* The video itself, behind a half-transparent layer */}
+      {/* The video layer, partially transparent */}
       <video
         ref={videoRef}
         autoPlay
@@ -105,6 +117,7 @@ const VideoBackground: React.FC<VideoBackgroundProps> = ({ section }) => {
         style={{ opacity: 0.4 }}
       >
         <source src="/video/freecompress-pink-background.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
     </div>
   );
